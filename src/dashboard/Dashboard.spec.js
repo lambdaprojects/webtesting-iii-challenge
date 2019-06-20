@@ -27,7 +27,7 @@ describe("Dashboard() - Shows the control and display", () => {
     });
 
     it("TC:DB3::Gate (Closed + unlocked) - click->close", () => {
-      // click on close gate
+      // click->close
       const { getByText, getByTestId } = render(<Dashboard />);
       let closeGateBtn = getByText(/close gate/i);
       fireEvent.click(closeGateBtn);
@@ -43,7 +43,7 @@ describe("Dashboard() - Shows the control and display", () => {
       expect(lockBtn).toHaveClass("green-led");
     });
     it("TC:DB4::Gate (Closed + unlocked) - click->close->open", () => {
-      // click on close gate
+      // click->close->open
       const { getByText, getByTestId } = render(<Dashboard />);
       let closeGateBtn = getByText(/close gate/i);
       fireEvent.click(closeGateBtn);
@@ -60,7 +60,7 @@ describe("Dashboard() - Shows the control and display", () => {
       expect(lockBtn).toHaveClass("green-led");
     });
     it("TC:DB5::Gate (Closed + lock) - click -> close -> lock", () => {
-      // click on close gate
+      // click -> close -> lock
       const { getByText, getByTestId } = render(<Dashboard />);
       let closeGateBtn = getByText(/close gate/i);
       fireEvent.click(closeGateBtn);
@@ -75,6 +75,45 @@ describe("Dashboard() - Shows the control and display", () => {
       expect(closeBtn).toHaveClass("red-led");
       let lockBtn = getByTestId(/lockBtn/i);
       expect(lockBtn).toHaveClass("red-led");
+    });
+    it("TC:DB6::Gate (Closed + lock) - click -> close -> lock->open", () => {
+      // click -> close -> lock->open
+      const { getByText, getByTestId } = render(<Dashboard />);
+      let closeGateBtn = getByText(/close gate/i);
+      fireEvent.click(closeGateBtn);
+      let lockGateBtn = getByText(/lock gate/i);
+      fireEvent.click(lockGateBtn);
+      let openGateBtn = getByText(/open gate/i);
+      fireEvent.click(openGateBtn);
+      expect(getByText(/open gate/i)).not.toBeNull();
+      expect(getByText(/locked/i)).not.toBeNull();
+      expect(getByText(/unlock gate/i)).not.toBeNull();
+      expect(getByText(/closed/i)).not.toBeNull();
+
+      let closeBtn = getByTestId(/closeBtn/i);
+      expect(closeBtn).toHaveClass("red-led");
+      let lockBtn = getByTestId(/lockBtn/i);
+      expect(lockBtn).toHaveClass("red-led");
+    });
+
+    it("TC:DB7::Gate (Closed + lock) - click -> close -> lock->unlock", () => {
+      // click -> close -> lock->open
+      const { getByText, getByTestId } = render(<Dashboard />);
+      let closeGateBtn = getByText(/close gate/i);
+      fireEvent.click(closeGateBtn);
+      let lockGateBtn = getByText(/lock gate/i);
+      fireEvent.click(lockGateBtn);
+      let unlockGateBtn = getByText(/unlock gate/i);
+      fireEvent.click(unlockGateBtn);
+      expect(getByText(/open gate/i)).not.toBeNull();
+      expect(getByText(/unlocked/i)).not.toBeNull();
+      expect(getByText(/lock gate/i)).not.toBeNull();
+      expect(getByText(/closed/i)).not.toBeNull();
+
+      let closeBtn = getByTestId(/closeBtn/i);
+      expect(closeBtn).toHaveClass("red-led");
+      let lockBtn = getByTestId(/lockBtn/i);
+      expect(lockBtn).toHaveClass("green-led");
     });
   });
   describe("Dashboard() -> Controls() -> props testing", () => {
